@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>¡Lava los Dientes del Hipopótamo!</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Pantalla de Inicio -->
+        <div id="screen-start" class="screen active">
+            <h1>¡Hora de Lavarse los Dientes!</h1>
+            <button id="btn-start" class="bounce">🌟 Jugar 🌟</button>
+        </div>
+
+        <!-- Pantalla de Juego -->
+        <div id="screen-game" class="screen">
+            <div id="instructions" class="instruction-text">¡Enjuaga el cepillo!</div>
+            
+            <div id="scene">
+                <!-- Capa del hipopótamo de fondo -->
+                <img id="hippo-img" src="assets/hippo_open_mouth.svg" alt="Hipopótamo Bebé">
+                
+                <!-- Canvas para la mugre que se borra frotando -->
+                <canvas id="dirt-canvas"></canvas>
+                
+                <!-- Elementos interactivos -->
+                <div id="faucet" class="hidden">🚰</div>
+                <img id="toothpaste-img" src="assets/toothpaste_tube.svg" class="hidden draggable" alt="Pasta dental">
+                <img id="brush-img" src="assets/colorful_toothbrush.svg" class="hidden draggable" alt="Cepillo de dientes">
+                
+                <!-- Mano guía visual -->
+                <div id="guide-hand" class="hidden">👆</div>
+            </div>
+            
+            <div id="progress-bar">
+                <div id="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Pantalla Final -->
+        <div id="screen-end" class="screen">
+            <h1>¡Dientes Brillantes!</h1>
+            <div class="stars">⭐⭐⭐</div>
+            <button id="btn-restart" class="bounce">Jugar de nuevo</button>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
