@@ -2,50 +2,120 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>¡Lava los Dientes del Hipopótamo!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Memorama de Formas Divertidas!</title>
+    <!-- Google Fonts: Fredoka es excelente para preescolar por sus formas redondeadas y amigables -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="game-container">
-        <!-- Pantalla de Inicio -->
-        <div id="screen-start" class="screen active">
-            <h1>¡Hora de Lavarse los Dientes!</h1>
-            <button id="btn-start" class="bounce">🌟 Jugar 🌟</button>
-        </div>
+    <!-- Canvas de fondo para el confeti de victoria -->
+    <canvas id="confetti-canvas"></canvas>
 
-        <!-- Pantalla de Juego -->
-        <div id="screen-game" class="screen">
-            <div id="instructions" class="instruction-text">¡Enjuaga el cepillo!</div>
-            
-            <div id="scene">
-                <!-- Capa del hipopótamo de fondo -->
-                <img id="hippo-img" src="assets/hippo_open_mouth.svg" alt="Hipopótamo Bebé">
-                
-                <!-- Canvas para la mugre que se borra frotando -->
-                <canvas id="dirt-canvas"></canvas>
-                
-                <!-- Elementos interactivos -->
-                <div id="faucet" class="hidden">🚰</div>
-                <img id="toothpaste-img" src="assets/toothpaste_tube.svg" class="hidden draggable" alt="Pasta dental">
-                <img id="brush-img" src="assets/colorful_toothbrush.svg" class="hidden draggable" alt="Cepillo de dientes">
-                
-                <!-- Mano guía visual -->
-                <div id="guide-hand" class="hidden">👆</div>
+    <div class="game-container">
+        <!-- PANTALLA DE INICIO / MENÚ -->
+        <header id="main-menu" class="screen active">
+            <div class="header-content">
+                <h1 class="bounce-title">⭐ Memorama de Formas ⭐</h1>
+                <p class="subtitle">¡Encuentra las parejas y aprende las formas jugando!</p>
             </div>
             
-            <div id="progress-bar">
-                <div id="progress-fill"></div>
+            <div class="menu-card">
+                <h2>¿Quién va a jugar hoy?</h2>
+                <p class="select-hint">Elige un nivel para empezar:</p>
+                
+                <div class="difficulty-buttons">
+                    <button class="btn btn-easy" data-difficulty="easy" id="btn-easy">
+                        <span class="animal-emoji">🐢</span>
+                        <div class="btn-text">
+                            <span class="level-name">Fácil</span>
+                            <span class="level-desc">4 cartas (1° Preescolar)</span>
+                        </div>
+                    </button>
+                    
+                    <button class="btn btn-medium" data-difficulty="medium" id="btn-medium">
+                        <span class="animal-emoji">🐇</span>
+                        <div class="btn-text">
+                            <span class="level-name">Medio</span>
+                            <span class="level-desc">12 cartas (2° Preescolar)</span>
+                        </div>
+                    </button>
+                    
+                    <button class="btn btn-hard" data-difficulty="hard" id="btn-hard">
+                        <span class="animal-emoji">🦁</span>
+                        <div class="btn-text">
+                            <span class="level-name">Difícil</span>
+                            <span class="level-desc">16 cartas (3° Preescolar)</span>
+                        </div>
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <!-- Pantalla Final -->
-        <div id="screen-end" class="screen">
-            <h1>¡Dientes Brillantes!</h1>
-            <div class="stars">⭐⭐⭐</div>
-            <button id="btn-restart" class="bounce">Jugar de nuevo</button>
+            <!-- CONTROLES GENERALES DE SONIDO EN MENÚ -->
+            <div class="settings-bar menu-settings">
+                <button id="toggle-voice-menu" class="control-btn active" title="Activar/Desactivar Voz">
+                    <span class="icon">🗣️</span> Voz: <span class="status">SÍ</span>
+                </button>
+                <button id="toggle-sound-menu" class="control-btn active" title="Activar/Desactivar Sonidos">
+                    <span class="icon">🔊</span> Sonidos: <span class="status">SÍ</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- PANTALLA DE JUEGO -->
+        <main id="game-screen" class="screen">
+            <div class="game-header">
+                <button id="back-to-menu" class="back-btn" title="Volver al menú">
+                    <span>⬅️</span> Menú
+                </button>
+                
+                <div class="stars-counter" id="stars-counter">
+                    <!-- Las estrellas se llenarán dinámicamente según los aciertos -->
+                </div>
+
+                <div class="game-controls">
+                    <button id="toggle-voice-game" class="control-btn active" title="Activar/Desactivar Voz">
+                        <span class="icon">🗣️</span>
+                    </button>
+                    <button id="toggle-sound-game" class="control-btn active" title="Activar/Desactivar Sonidos">
+                        <span class="icon">🔊</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid de cartas -->
+            <div class="board-wrapper">
+                <div id="game-board" class="game-board">
+                    <!-- Las cartas se generan dinámicamente con JavaScript -->
+                </div>
+            </div>
+        </main>
+
+        <!-- MODAL DE VICTORIA -->
+        <div id="victory-modal" class="modal">
+            <div class="modal-content">
+                <div class="trophy-wrapper">
+                    <span class="trophy-emoji">🏆</span>
+                </div>
+                <h2 class="victory-title">¡Lo lograste!</h2>
+                <p id="victory-message">¡Eres súper inteligente! Encontraste todas las parejas.</p>
+                <div class="victory-stats">
+                    <div class="stat-box">
+                        <span class="stat-icon">⭐</span>
+                        <span class="stat-value" id="final-stars">0</span>
+                        <span class="stat-label">Estrellas</span>
+                    </div>
+                </div>
+                <button id="play-again" class="btn btn-replay">
+                    <span>🔁</span> ¡Jugar otra vez!
+                </button>
+            </div>
         </div>
     </div>
+
+    <!-- Script principal -->
     <script src="app.js"></script>
 </body>
 </html>
